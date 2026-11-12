@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mở PSL Tool</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .go{display:inline-block;margin:1.2rem 0;padding:.8rem 1.6rem;border-radius:8px;
+      background:var(--sea);color:var(--paper);font-weight:600;text-decoration:none;font-size:1.05rem}
+  .go:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+  .ship{font-family:Consolas,monospace;background:rgba(127,127,127,.12);padding:.1rem .4rem;border-radius:4px}
+  ol li{margin:.3rem 0}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Đang mở PSL Tool…</h1>
+<p class="sub" id="what">Tool sẽ mở và chọn sẵn lô cần gửi.</p>
+</header>
+
+<p>Trình duyệt sẽ hỏi <b>“Mở PSL_Tool?”</b> → bấm <b>Mở</b>.
+Tick ô <b>“Luôn cho phép…”</b> để lần sau không bị hỏi lại.</p>
+
+<a class="go" id="go" href="#">Mở PSL Tool</a>
+
+<h2>Không thấy gì xảy ra?</h2>
+<ol>
+  <li>Bấm nút <b>Mở PSL Tool</b> ở trên.</li>
+  <li>Nếu vẫn không mở: máy này chưa “nhận” link của tool. Mở <b>PSL_Tool.exe</b> một lần
+      (từ thư mục tool hoặc shortcut), đóng lại, rồi bấm lại link trên sheet.</li>
+  <li>Đã chuyển thư mục tool sang chỗ khác: cũng mở PSL_Tool.exe một lần ở chỗ mới.</li>
+</ol>
+<p>Có thể đóng tab này sau khi tool đã mở.</p>
+
+<footer><a href="index.html">PSL Email Tool</a></footer>
+</main>
+<script>
+  // Chuyen tham so tu link tren Google Sheet (?sheet=...&ship=...) sang link psltool://
+  var q = location.search || "";
+  var target = "psltool://open/" + q;
+  document.getElementById("go").href = target;
+  try {
+    var ship = new URLSearchParams(q).get("ship");
+    if (ship) {
+      var w = document.getElementById("what");
+      w.textContent = "Lô cần gửi: ";
+      var s = document.createElement("span"); s.className = "ship"; s.textContent = ship;
+      w.appendChild(s);
+    }
+  } catch (e) {}
+  setTimeout(function(){ window.location.href = target; }, 300);
+</script>
+</body>
+</html>
